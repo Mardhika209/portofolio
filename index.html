@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio Network Engineer - Mardhika Agus</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#0b0f14;
+  --card:#111827;
+  --accent:#00e5ff;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+
+/* BACKGROUND */
+.bg,.bg2{position:fixed;inset:0;z-index:-1}
+.bg{
+  background:
+  radial-gradient(circle at 20% 20%,rgba(0,229,255,.15),transparent 40%),
+  radial-gradient(circle at 80% 10%,rgba(255,255,255,.08),transparent 45%),
+  linear-gradient(135deg,#0b0f14,#070a0f);
+}
+.bg2{
+  background-image:
+  linear-gradient(rgba(0,229,255,.08) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px);
+  background-size:80px 80px;
+  opacity:.3;
+  animation:gridMove 20s linear infinite;
+}
+@keyframes gridMove{to{background-position:80px 80px}}
+
+/* NAVBAR */
+nav{
+  position:fixed;top:0;width:100%;
+  background:rgba(11,15,20,.9);
+  backdrop-filter:blur(8px);
+  display:flex;justify-content:space-between;
+  padding:15px 40px;
+  z-index:1000;
+  animation:navFade .8s ease forwards;
+}
+@keyframes navFade{
+  from{opacity:0;transform:translateY(-20px)}
+  to{opacity:1;transform:none}
+}
+nav strong{
+  font-size:18px;
+}
+.nav-menu{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+nav a{
+  color:var(--text);
+  text-decoration:none;
+  font-size:14px;
+  position:relative;
+  transition: color .3s ease;
+}
+nav a:hover{color:var(--accent)}
+nav a.active{color:var(--accent)}
+
+/* HAMBURGER */
+.hamburger{
+  display:none;
+  width:40px;height:40px;
+  border:none;background:transparent;
+  cursor:pointer;
+  position:relative;
+  z-index:1100;
+}
+.hamburger span{
+  position:absolute;
+  left:8px;right:8px;
+  height:3px;
+  background:var(--text);
+  border-radius:2px;
+  transition:all .3s ease;
+}
+.hamburger span:nth-child(1){top:12px;}
+.hamburger span:nth-child(2){top:18px;}
+.hamburger span:nth-child(3){top:24px;}
+.hamburger.open span:nth-child(1){
+  transform:translateY(6px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2){
+  opacity:0;
+}
+.hamburger.open span:nth-child(3){
+  transform:translateY(-6px) rotate(-45deg);
+}
+
+/* MOBILE MENU */
+.mobile-menu{
+  display:none;
+  position:fixed;
+  top:60px;
+  right:0;
+  width:100%;
+  background:rgba(11,15,20,.95);
+  backdrop-filter:blur(10px);
+  padding:20px 30px;
+  flex-direction:column;
+  gap:15px;
+  transform:translateY(-20px);
+  opacity:0;
+  transition:all .4s ease;
+  z-index:1050;
+}
+.mobile-menu.open{
+  display:flex;
+  transform:translateY(0);
+  opacity:1;
+}
+.mobile-menu a{
+  color:var(--text);
+  font-size:16px;
+  text-decoration:none;
+  padding:10px 15px;
+  border-radius:8px;
+  transition:.3s;
+}
+.mobile-menu a:hover{
+  background:rgba(0,229,255,.12);
+  color:var(--accent);
+}
+.mobile-menu a.active{
+  color:var(--accent);
+  background:rgba(0,229,255,.18);
+}
+
+/* SECTION */
+section{padding:100px 10%}
+h2{font-size:32px;margin-bottom:30px}
+h2::after{
+  content:"";width:60px;height:3px;
+  background:var(--accent);display:block;margin-top:10px
+}
+
+/* HERO / HOME */
+.hero{
+  height:100vh;display:flex;
+  justify-content:center;align-items:center;
+  text-align:left;
+}
+.hero-content{
+  max-width:720px;
+  text-align:left;
+}
+.hero h1{
+  font-size:48px;
+  animation:fadeUp .8s ease forwards;
+}
+.hero span{color:var(--accent)}
+.hero-subtitle{
+  font-size:22px;
+  color:var(--muted);
+  margin-top:12px;
+  opacity:0;
+  animation:fadeUp .8s ease .2s forwards;
+}
+.hero-body{
+  text-align:left;
+}
+.hero p{
+  color:var(--muted);
+  font-size:18px;margin-top:12px;
+  opacity:0;
+  animation:fadeUp .8s ease .4s forwards;
+}
+
+.cta{
+  margin-top:30px;
+  opacity:0;
+  animation:fadeUp .8s ease .6s forwards;
+  display:flex;               
+  justify-content:center;      
+  align-items:center;          
+  gap:15px;                    
+}
+.cta a{
+  padding:12px 26px;border:1px solid var(--accent);
+  color:var(--accent);text-decoration:none;
+  display:inline-block;
+  transition:.3s;
+  margin: 0;                  
+}
+
+.cta a:hover{
+  background:var(--accent);
+  color:#000;
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,229,255,.35)
+}
+
+/* ABOUT */
+.about-content{
+  display:grid;grid-template-columns:250px 1fr;
+  gap:40px;align-items:center
+}
+.about-photo img{
+  width:100%;border-radius:50%;
+  border:3px solid var(--accent);
+  animation:pulseGlow 4s ease-in-out infinite;
+}
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 25px rgba(0,229,255,.25)}
+  50%{box-shadow:0 0 45px rgba(0,229,255,.45)}
+}
+.about p{color:var(--muted)}
+
+/* SKILLS */
+.skill{
+  margin-bottom:20px;
+  display:grid;
+  grid-template-columns: 1fr auto;
+  align-items:center;
+  gap:15px;
+  cursor:pointer;
+  position:relative;
+}
+.skill:hover .skill-name{color:var(--accent)}
+
+.skill-name{
+  font-size:16px;
+}
+.skill-percent{
+  font-size:14px;
+  color:var(--muted);
+}
+
+/* segitiga */
+.skill-arrow{
+  width:0;height:0;
+  border-left:8px solid transparent;
+  border-right:8px solid transparent;
+  border-top:10px solid var(--muted);
+  margin-left:10px;
+  transition:all .3s ease;
+}
+.skill.open .skill-arrow{
+  border-top-color:var(--accent);
+  transform:translateY(5px) rotate(180deg);
+}
+
+.bar{
+  background:#1f2933;height:8px;border-radius:5px;overflow:hidden;
+  grid-column:1/3;margin-top:8px;
+}
+.fill{height:100%;width:0;background:var(--accent);transition:1.5s}
+
+/* penjelasan skill */
+.skill-desc{
+  grid-column:1/3;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:14px;
+  display:none;
+}
+.skill.open .skill-desc{
+  display:block;
+}
+
+/* PORTFOLIO */
+.portfolio-grid{
+  display:grid;
+  /* grid-template-columns tetap sama untuk responsivitas */
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:20px;
+  align-items: stretch; /* Memastikan semua item grid memiliki tinggi yang sama */
+}
+
+.port-link {
+  display: flex; /* Membungkus card agar memenuhi tinggi grid */
+  text-decoration: none; 
+  color: inherit;
+}
+
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:10px;
+  transition:.4s;
+  cursor:pointer;
+  width: 100%; /* Memastikan lebar kotak sama */
+  display: flex;
+  flex-direction: column; /* Mengatur isi card secara vertikal */
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.card p {
+  flex-grow: 1; /* Membuat teks deskripsi mengambil sisa ruang agar tinggi card seragam */
+}
+
+.card:hover{
+  transform:translateY(-12px) scale(1.02);
+  box-shadow:0 15px 40px rgba(0,229,255,.25)
+}
+
+.port-img{
+  width:100%;
+  border-radius:10px;
+  max-height: 0; 
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all .4s ease;
+  object-fit: cover;
+  display: block;
+}
+
+.card:hover .port-img{
+  opacity:1;
+  max-height: 200px; 
+  margin-bottom:15px;
+  transform: translateY(0);
+}
+
+/* EXPERIENCE TIMELINE */
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0;
+    padding-left: 20px;
+    border-left: 2px solid rgba(0, 229, 255, 0.3);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+    opacity: 1; 
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,229,255,0.5);
+}
+
+.timeline-date {
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(0, 229, 255, 0.1);
+    border-radius: 4px;
+}
+
+.timeline-content h3 {
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.timeline-content .role {
+    font-style: italic;
+    color: #cbd5e1;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.timeline-content p {
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+/* CONTACT */
+.contact-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:30px
+}
+.contact-info a{color:var(--accent);text-decoration:none}
+.social-links{display:flex;gap:15px;margin-top:15px}
+.social-links a{
+  font-size:22px;color:var(--accent);
+  transition:.3s
+}
+.social-links a:hover{
+  transform:scale(1.3) rotate(8deg)
+}
+.contact-form input,.contact-form textarea{
+  width:100%;padding:10px;margin-bottom:12px;
+  background:#0b1220;border:1px solid #2d3748;
+  border-radius:8px;color:var(--text)
+}
+.contact-form button{
+  padding:12px 20px;background:var(--accent);
+  border:none;border-radius:8px;
+  transition:.3s;
+  cursor: pointer;
+  color: #000;
+  font-weight: bold;
+}
+.contact-form button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 20px rgba(0,229,255,.35)
+}
+
+footer{text-align:center;padding:20px;color:var(--muted);border-top:1px solid #1f2933}
+
+/* REVEAL */
+.reveal{
+  opacity:0;
+  transform:translateY(60px) scale(.98);
+  transition:1s cubic-bezier(.19,1,.22,1)
+}
+.reveal.active{opacity:1;transform:none}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1}
+}
+
+@media(max-width:768px){
+  nav{padding:15px 20px}
+  .nav-menu{display:none}
+  .hamburger{display:block}
+  section{padding:100px 5%}
+  .about-content,.contact-grid{grid-template-columns:1fr;text-align:center}
+  .about-photo img{width:180px;margin:auto}
+  .hero{padding-top:80px; text-align: center;}
+  .hero-content{ text-align: center; }
+  .hero-body{ text-align: center; }
+  .cta a{ margin: 0; } 
+
+  .hero h2::after {
+    margin: 10px auto 0;
+  }
+  
+  .social-links {
+    justify-content: center;
+  }
+
+  /* EFEK KLIK 1X MUNCUL GAMBAR UNTUK MOBILE */
+  .card.touch-active {
+    transform:translateY(-12px) scale(1.02);
+    box-shadow:0 15px 40px rgba(0,229,255,.25);
+  }
+  .card.touch-active .port-img {
+    opacity: 1;
+    max-height: 200px;
+    margin-bottom: 15px;
+    transform: translateY(0);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg"></div><div class="bg2"></div>
+
+<nav>
+  <strong>Network Engineer</strong>
+
+  <div class="nav-menu">
+    <a href="#home" class="nav-link">Home</a>
+    <a href="#about" class="nav-link">Tentang</a>
+    <a href="#skills" class="nav-link">Skill</a>
+    <a href="#portfolio" class="nav-link">Portofolio</a>
+    <a href="#experience" class="nav-link">Pengalaman</a>
+    <a href="#contact" class="nav-link">Kontak</a>
+  </div>
+
+  <button class="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu">
+  <a href="#home" class="nav-link">Home</a>
+  <a href="#about" class="nav-link">Tentang</a>
+  <a href="#skills" class="nav-link">Skill</a>
+  <a href="#portfolio" class="nav-link">Portofolio</a>
+  <a href="#experience" class="nav-link">Pengalaman</a>
+  <a href="#contact" class="nav-link">Kontak</a>
+</div>
+
+<section id="home" class="hero">
+  <div class="hero-content">
+    <h1>Halo, Saya <span>Mardhika Agus</span></h1>
+    <h2 class="hero-subtitle">Network Engineer</h2>
+
+    <div class="hero-body">
+      <p>Membangun infrastruktur jaringan yang aman, stabil, dan scalable.</p>
+      <div class="cta">
+        <a href="cv/mardhika.pdf" download>Download CV</a>
+        <a href="#contact" class="nav-link hero-contact">Kontak Saya</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="reveal">
+<h2>Tentang Saya</h2>
+<div class="about-content">
+<div class="about-photo">
+<img src="foto/IMG_9995.JPG" alt="Foto Mardhika Agus">
+</div>
+<p>Saya adalah seorang Network Engineer yang berdedikasi dengan minat kuat pada teknologi jaringan dan keamanan siber. Berpengalaman dalam konfigurasi dan troubleshooting perangkat jaringan, serta memiliki pemahaman dalam administrasi web server dan sistem operasi Linux untuk mendukung infrastruktur yang stabil dan aman. Aktif dalam organisasi kepemimpinan dan kegiatan ilmiah yang melatih kemampuan problem solving dan kolaborasi tim.</p>
+</div>
+</section>
+
+<section id="skills" class="reveal">
+<h2>Keahlian</h2>
+
+<div class="skill" data-desc="Merancang dan mengimplementasikan konfigurasi routing (OSPF, BGP), VLAN, serta melakukan troubleshooting untuk memastikan stabilitas dan performa jaringan.">
+  <div class="skill-name">Routing & Switching</div>
+  <div class="skill-percent">80%</div>
+  <div class="skill-arrow"></div>
+  <div class="bar"><div class="fill" data-width="80%"></div></div>
+  <div class="skill-desc"></div>
+</div>
+
+<div class="skill" data-desc="Konfigurasi dan manajemen routing (static & dynamic), firewall filtering, VLAN, serta implementasi load balancing dan failover untuk menjaga stabilitas dan keamanan jaringan.">
+  <div class="skill-name">Firewall & Security</div>
+  <div class="skill-percent">75%</div>
+  <div class="skill-arrow"></div>
+  <div class="bar"><div class="fill" data-width="75%"></div></div>
+  <div class="skill-desc"></div>
+</div>
+
+<div class="skill" data-desc="Administrasi Linux server meliputi instalasi, konfigurasi web server dan database, manajemen service, serta monitoring performa sistem untuk mendukung ketersediaan layanan.">
+  <div class="skill-name">Linux Server</div>
+  <div class="skill-percent">70%</div>
+  <div class="skill-arrow"></div>
+  <div class="bar"><div class="fill" data-width="70%"></div></div>
+  <div class="skill-desc"></div>
+</div>
+
+</section>
+
+<section id="portfolio" class="reveal">
+<h2>Portofolio</h2>
+<div class="portfolio-grid">
+
+  <a href="https://mardhika209.github.io/pacman-and-all/" target="_blank" class="port-link">
+  <div class="card" data-img="https://cdn.pixabay.com/photo/2021/05/06/14/51/gamepad-6233583_640.png">
+    <img class="port-img" alt="Portofolio 1">
+    <h3>Making Game Berbasis HTML,CSS,JS</h3>
+    <p>Saya mengembangkan beberapa game kecil berbasis browser menggunakan HTML, CSS, dan JavaScript. Fokus utama saya adalah membangun game logic, sistem skor, animasi interaktif, serta memastikan performa tetap optimal di berbagai perangkat.</p>
+  </div>
+  </a>
+
+  <a href="http://mardhika-2024.xi-tkj.my.id/2025/04/dokumentasi-hasil-monitor-jaringan-di.html" target="_blank" class="port-link">
+  <div class="card" data-img="https://asani.co.id/wp-content/uploads/2024/05/aplikasi-monitoring-jaringan.webp">
+    <img class="port-img" alt="Portofolio 2">
+    <h3>Monitoring Jaringan</h3>
+    <p>pernah mempelajari dasar-dasar monitoring jaringan, termasuk proses instalasi dan konfigurasi awal tools monitoring.</p>
+  </div>
+  </a>
+
+  <a href="http://mardhika-2024.xi-tkj.my.id/2024/11/cara-install-wordpress.html" target="_blank" class="port-link">
+  <div class="card" data-img="https://academy.proxsisgroup.com/wp-content/uploads/2024/05/Apa-Itu-WordPress-Adalah.jpg">
+    <img class="port-img" alt="Portofolio 3">
+    <h3>Membuat Web Server Wordpress</h3>
+    <p>Saya mengembangkan website menggunakan WordPress dengan fokus pada tampilan yang menarik, responsif, dan mudah digunakan. Saya memiliki pengalaman dalam mengatur tema, plugin, serta melakukan kustomisasi dasar untuk memenuhi kebutuhan proyek pribadi.</p>
+  </div>
+  </a>
+
+</div>
+</section>
+
+<section id="experience" class="reveal">
+<h2>Pengalaman & Organisasi</h2>
+<div class="timeline">
+
+  <div class="timeline-item">
+  <div class="timeline-date">Juli 2025 - Desember 2025</div>
+  <div class="timeline-content">
+    <h3>PKL (Praktik Kerja Lapangan)</h3>
+    <div class="role">Jari Wifi</div>
+    <p>Melakukan instalasi dan maintenance jaringan internet, membantu troubleshooting klien, konfigurasi dasar perangkat jaringan, serta monitoring koneksi dan manajemen bandwidth.</p>
+  </div>
+</div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2025</div>
+    <div class="timeline-content">
+      <h3>KIT (Karya Ilmiah Teknologi)</h3>
+      <div class="role">Anggota Aktif</div>
+      <p>Aktif mengikuti kegiatan KIT dan pengembangan inovasi teknologi.</p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2023 - 2025</div>
+    <div class="timeline-content">
+      <h3>PMR (Palang Merah Remaja)</h3>
+      <div class="role">Anggota Aktif</div>
+      <p>Terlibat dalam kegiatan kemanusiaan dan pertolongan pertama. Mewakili tim dalam perlombaan <strong>SIKOM 2025</strong> kategori kesehatan/pertolongan dan sukses masuk dalam jajaran <strong>Top 10 Besar</strong>.</p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2024</div>
+    <div class="timeline-content">
+      <h3>LDKS (Latihan Dasar Kepemimpinan Siswa)</h3>
+      <div class="role">Peserta</div>
+      <p>Menyelesaikan pelatihan kepemimpinan intensif yang melatih manajemen waktu, kedisiplinan mental, public speaking, dan kerja sama tim (team building) dalam organisasi.</p>
+    </div>
+  </div>
+
+  <div class="timeline-item">
+    <div class="timeline-date">2023 - 2025</div>
+    <div class="timeline-content">
+      <h3>Pramuka</h3>
+      <div class="role">Anggota Aktif</div>
+      <p>Mengikuti kegiatan kepramukaan sebagai anggota aktif, berpartisipasi dalam kegiatan rutin dan latihan dasar.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<section id="contact" class="reveal">
+<h2>Kontak</h2>
+<div class="contact-grid">
+<div class="contact-info">
+<p><strong>Telp:</strong> <a href="tel:+6285257319624">+62 852-5731-9624</a></p>
+<p><strong>Email:</strong> <a href="mailto:mardikad45@gmail.com">mardikad45@gmail.com</a></p>
+<p><strong>Lokasi:</strong> Nganjuk</p>
+<div class="social-links">
+<a href="https://wa.me/6285257319624"><i class="fab fa-whatsapp"></i></a>
+<a href="https://www.instagram.com/dika_2483?igsh=NXBlbXdwb3lzemhj"><i class="fab fa-instagram"></i></a>
+<a href="https://www.linkedin.com/in/mardhika-agus-prianto-b775b2309"><i class="fab fa-linkedin"></i></a>
+<a href="https://github.com/Mardhika209"><i class="fab fa-github"></i></a>
+</div>
+</div>
+<div class="contact-form">
+<form id="contactForm">
+  <input type="text" name="from_name" placeholder="Nama" required>
+  <input type="email" name="from_email" placeholder="Email" required>
+  <textarea name="message" rows="5" placeholder="Pesan" required></textarea>
+  <button type="submit" id="submitBtn">Kirim Pesan</button>
+  <p id="formStatus" style="margin-top:10px;font-size:14px;"></p>
+</form>
+</div>
+</div>
+</section>
+
+<footer>© 2026 Mardhika Agus. All Rights Reserved.</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const bars = document.querySelectorAll('.fill');
+const navLinks = document.querySelectorAll('.nav-link');
+const nav = document.querySelector('nav');
+const hamburger = document.querySelector('.hamburger');
+const mobileMenu = document.querySelector('.mobile-menu');
+
+let isAutoScrolling = false;
+const navHeight = nav.offsetHeight;
+
+/* Mobile menu toggle */
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+});
+
+/* Close mobile menu */
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
+});
+
+/* Smooth Scroll */
+function activateMenu(id){
+  navLinks.forEach(l => l.classList.remove('active'));
+  const link = document.querySelector(`a[href="#${id}"]`);
+  if(link) link.classList.add('active');
+}
+
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    const href = link.getAttribute('href');
+    if(!href.startsWith('#')) return;
+
+    const targetId = href.replace('#','');
+    const target = document.getElementById(targetId);
+    if(target) {
+        activateMenu(targetId);
+        isAutoScrolling = true;
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.pageYOffset - navHeight - 20,
+          behavior: 'smooth'
+        });
+        setTimeout(()=> { isAutoScrolling = false }, 800);
+    }
+  });
+});
+
+/* Reveal & Progress */
+function onScroll(){
+  reveals.forEach(el=>{
+    if(el.getBoundingClientRect().top < innerHeight - 100){
+      el.classList.add('active')
+    }
+  });
+  bars.forEach(bar=>{
+    if(bar.getBoundingClientRect().top < innerHeight - 100){
+      bar.style.width = bar.dataset.width
+    }
+  });
+}
+addEventListener('scroll', onScroll);
+onScroll();
+
+/* Scroll Spy */
+const sections = document.querySelectorAll('section[id]');
+const observer = new IntersectionObserver((entries) => {
+  if(isAutoScrolling) return;
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      activateMenu(entry.target.getAttribute('id'));
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(section => observer.observe(section));
+
+/* SKILL CLICK TOGGLE */
+const skills = document.querySelectorAll('.skill');
+skills.forEach(skill => {
+  skill.querySelector('.skill-desc').innerText = skill.dataset.desc;
+  skill.addEventListener('click', () => {
+    if(skill.classList.contains('open')){
+      skill.classList.remove('open');
+      return;
+    }
+    skills.forEach(s => s.classList.remove('open'));
+    skill.classList.add('open');
+  });
+});
+
+/* PORTFOLIO IMAGE SET */
+document.querySelectorAll('.card').forEach(card => {
+  const imgEl = card.querySelector('.port-img');
+  if(card.dataset.img && card.dataset.img !== "") {
+      imgEl.src = card.dataset.img;
+  }
+});
+
+/* LOGIC 2X KLIK UNTUK PORTFOLIO (HANYA MOBILE) */
+const portfolioLinks = document.querySelectorAll('.port-link');
+portfolioLinks.forEach(link => {
+  link.addEventListener('click', function(e) {
+    if (window.innerWidth <= 768) {
+      const card = this.querySelector('.card');
+      if (!card.classList.contains('touch-active')) {
+        e.preventDefault();
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('touch-active'));
+        card.classList.add('touch-active');
+      } 
+    }
+  });
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.port-link')) {
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('touch-active'));
+  }
+});
+
+/* CONTACT FORM */
+const contactForm = document.getElementById("contactForm");
+const submitBtn = document.getElementById("submitBtn");
+const formStatus = document.getElementById("formStatus");
+
+contactForm.addEventListener("submit", function(e){
+  e.preventDefault();
+  submitBtn.disabled = true;
+  submitBtn.innerText = "Mengirim...";
+  setTimeout(() => {
+      formStatus.style.color = "#00e5ff";
+      formStatus.innerText = "Pesan berhasil dikirim ✔";
+      contactForm.reset();
+      submitBtn.disabled = false;
+      submitBtn.innerText = "Kirim Pesan";
+  }, 1500);
+});
+</script>
+</body>
+</html>
